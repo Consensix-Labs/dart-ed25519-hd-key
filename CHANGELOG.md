@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.0 (2024-09-03)
+
+- Update required `sdk` and package dependencies
+
 ## 2.2.1 (2022-08-18)
 
 - Update dependencies
