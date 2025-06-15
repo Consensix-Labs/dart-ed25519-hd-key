@@ -1,6 +1,8 @@
 ed25519 HD Key
 =====
 
+This is a fork of the [ed25519_hd_key Dart package](https://pub.dev/packages/ed25519_hd_key) with a synchronous interface.
+
 Key Derivation for `ed25519`
 ------------
 Ported from [ed25519-hd-key](https://github.com/alepop/ed25519-hd-key) js library
