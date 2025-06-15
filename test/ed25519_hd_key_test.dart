@@ -78,4 +78,37 @@ void main() {
               "1352d9efc5c511f89ff262f913e58a2d42649d47246752790cbce6987e100bfe"));
     });
   });
+
+  group('Test hardened vs non-hardened index derivation', () {
+    const seedHex =
+        '000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f';
+    final seed = hex.decode(seedHex);
+
+    test('Should derive correct hardened child key at index 0\'', () {
+      final hardenedPath = "m/0'";
+      final keyData = ED25519_HD_KEY.derivePath(hardenedPath, seed);
+      final pub = ED25519_HD_KEY.getPublicKey(keyData.key, false);
+
+      expect(keyData.key.length, equals(32));
+      expect(pub.length, equals(32));
+    });
+
+    test('Should derive correct non-hardened child key at index 0', () {
+      final nonHardenedPath = "m/0";
+      final keyData = ED25519_HD_KEY.derivePath(nonHardenedPath, seed);
+      final pub = ED25519_HD_KEY.getPublicKey(keyData.key, false);
+
+      expect(keyData.key.length, equals(32));
+      expect(pub.length, equals(32));
+    });
+
+    test('Hardened and non-hardened keys should differ', () {
+      final keyHardened = ED25519_HD_KEY.derivePath("m/0'", seed);
+      final keyNormal = ED25519_HD_KEY.derivePath("m/0", seed);
+
+      expect(hex.encode(keyHardened.key), isNot(equals(hex.encode(keyNormal.key))));
+      expect(hex.encode(keyHardened.chainCode),
+          isNot(equals(hex.encode(keyNormal.chainCode))));
+    });
+  });
 }

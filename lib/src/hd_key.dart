@@ -30,8 +30,16 @@ class _ED25519HD {
     KeyData result = master;
 
     for (String segment in segments) {
-      int index = int.parse(segment.substring(0, segment.length - 1));
-      result = _getCKDPriv(result, index + offset);
+      int index;
+
+      if (segment.endsWith("'")) {
+        // Hardened index
+        index = int.parse(segment.substring(0, segment.length - 1));
+        result = _getCKDPriv(result, index + HARDENED_OFFSET);
+      } else {
+        int index = int.parse(segment);
+        result = _getCKDPriv(result, index);
+      }
     }
 
     return result;
